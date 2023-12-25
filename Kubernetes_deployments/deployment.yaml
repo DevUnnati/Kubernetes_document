@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: todoapp
+spec:
+ replicas: 2
+ selector:
+   matchLabels:
+     app: todo
+ template:
+   metadata:
+     name: todoapp
+     labels:
+       app: todo
+   spec:
+    containers:
+      - name: todoapp
+        image: chanchal8765/django-docker
