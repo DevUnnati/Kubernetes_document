@@ -1,0 +1,11 @@
+apiVersion: v1
+data:
+  config.yaml: |
+    This is my first configuration file.
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2023-12-24T11:17:28Z"
+  name: myconfig
+  namespace: default
+  resourceVersion: "1164"
+  uid: 536a64b3-abcb-42ee-a92a-46c56ba583f5
