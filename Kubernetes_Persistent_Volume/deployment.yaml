@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pv-test-app
+  labels:
+    app: pv-test-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pv-test-app
+  template:
+    metadata:
+      labels:
+        app: pv-test-app
+    spec:
+      containers:
+      - name: pv-test-app
+        image: nginx
+        volumeMounts:
+        - name: pv-test-app
+          mountPath: /tmp/data
+        ports:
+        - containerPort: 8000
+      volumes:
+      - name: pv-test-app
+        persistentVolumeClaim:
+          claimName: pvc-test
