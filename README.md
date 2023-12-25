@@ -1,6 +1,6 @@
-# Project Title
+# Kubernetes
 
-Welcome to [Your Project Name] - a brief description of what your project does.
+Welcome to Kubernetes_document - a brief description of what your project does.
 
 ## Table of Contents
 
@@ -9,12 +9,6 @@ Welcome to [Your Project Name] - a brief description of what your project does.
 - [Contributing](#contributing)
 - [License](#license)
 
-## Kubernetes Configuration
-
-In the `kubernetes/` directory, you'll find important YAML files for configuring your application in a Kubernetes environment.
-
-- [**deployment.yaml**](kubernetes/deployment.yaml): Describes how to run your application pods.
-- [**service.yaml**](kubernetes/service.yaml): Configures the Kubernetes service for your application.
 
 ## Getting Started
 
