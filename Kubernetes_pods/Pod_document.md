@@ -21,5 +21,14 @@ The scheduler assigns a node to the pod and then the containers start within the
 **Can a Pod have multiple IP addresses?**
 No, a Pod in Kubernetes has a single IP address. However, each container within the Pod shares this same IP address and is accessible over the same network.
 
+**Restart Policy**
+The default behavior of K8s is to restart a pod if it terminates. This is desirable for long running containers like web applications or databases. But, this is not desirable for short-lived containers such as a container to process an image or run analytics. 
+
+`restartPolicy` allows us to specify when K8s should restart the pod.
+
+- `Always` - restart the pod if it goes down (default)
+- `Never` - never restart the pod
+- `OnFailure` - restart the pod only if the container inside failed (returned non zero exit code after execution)
+
 **For More Knowledge:**
 Document_Link: https://devunnatig.hashnode.dev/launching-your-first-kubernetes-cluster-with-nginx-running
