@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+ labels:
+  test: liveness
+ name: liveness-pod
+spec:
+ containers:
+  - image: ubuntu
+    name: liveness-container
+    args:
+     - /bin/sh
+     - -c
+     - touch /tmp/devopsdynamics; sleep 1000
+    livenessProbe:
+      exec:
+       command:
+        - cat
+        - /tmp/devopsdynamics
+      initialDelaySeconds: 5
+      periodSeconds: 5
+      timeoutSeconds: 30
