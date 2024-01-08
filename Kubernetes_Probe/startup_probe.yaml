@@ -1,23 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  creationTimestamp: null
+  labels:
+    app: application-probe
+  name: application-probe
 spec:
- replicas: 2
- selector:
-   matchLabels:
-    app: nginx-app
- template:
-   metadata:
-     name: nginx-app
-     labels:
-       app: nginx-app
-   spec:
-     containers:
-       - name: nginx-app
-         image: nginx
-         startupProbe:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: application-probe
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: readiness-probe
+    spec:
+      containers:
+      - image: nginx
+        name: nginx               
+		    startupProbe:
           httpGet:
             path: /index.html
             port: 80
           periodSeconds: 20
+
