@@ -9,6 +9,8 @@ _ETCDCTL_API=3 etcdctl --endpoints 127.0.0.1:2379 snapshot save /opt/backup-etcd
 
 _ETCDCTL_API=3 etcdctl --data-dir <data-dir-location> snapshot restore /opt/backup-etcd.db_
 
+After restoring change the ETCD host path at the end in etcd.yaml (/etc/kubernetes/manifests/etcd.yaml)
+
 **Verify_Storage_Command:**
 
 _ETCDCTL_API=3 etcdctl --endpoints $ENDPOINT snapshot save /opt/backup-etcd.db_
