@@ -97,11 +97,11 @@ LDAP, SAML, Kerberos, Alternate x509 schemes.
 		
 		For Manually created service Account.
   
-		command: kubectl create serviceaccount jenkins
+		  command: kubectl create serviceaccount jenkins
   
 		Create an associated token:
   
-		command: kubectl create token jenkins
+		  command: kubectl create token jenkins
   
 		The created token is a signed JSON Web Token (JWT).The signed JWT can be used as a bearer token to authenticate as the given service account.
 		
@@ -152,4 +152,4 @@ b) Impersonate-Group
 
 c) Impersonate-Extra-( extra name)
 
-command: _kubectl drain node --as=superman --as-group-system:master_
+   command: _kubectl drain node --as=superman --as-group-system:master_
