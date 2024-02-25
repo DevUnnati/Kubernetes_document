@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-backend-egress-to-frontend
+  namespace: network-policy-tutorial
+spec:
+  podSelector:
+    matchLabels:
+      run: backend
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          run: frontend
