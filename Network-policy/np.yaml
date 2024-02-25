@@ -1,0 +1,57 @@
+Case1: if services is running on different port and no need to mention the port.
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-all-ingress-to-db
+  namespace: db
+spec:
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          role: bd
+
+Case2: you can pass port number but in this case you have to pass service target port number.
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-all-ingress-to-db
+  namespace: db
+spec:
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          role: bd
+
+
+Case3: Ingress traffic allow from own namespace.(Only development pod can access the development namespace pod)
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-ingress
+  namespace: development
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector: {}
+
+Case4: It deny all ingress traffic
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-all-ingress
+spec:
+  podSelector: {}
+  ingress:
+  - {}
+  policyTypes:
+  - Ingress
+
