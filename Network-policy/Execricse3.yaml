@@ -1,0 +1,126 @@
+Exercise: Microservices Communication
+Setup:
+
+Create a Kubernetes namespace for your microservices environment: microservices-ns.
+Deploy three microservices with the following labels:
+Service A: app=service-a
+Service B: app=service-b
+Service C: app=service-c
+Ensure each microservice has a few replicas.
+Default Deny:
+
+Create a default deny Network Policy in the microservices-ns namespace to block all incoming and outgoing traffic.
+Allow Communication Between Services:
+
+Create Network Policies to allow communication between the microservices:
+Allow traffic from Service A to Service B.
+Allow traffic from Service B to Service C.
+Allow traffic from Service C to Service A.
+Verification:
+
+Deploy a client pod labeled app=client in the microservices-ns namespace.
+From the client pod, attempt to communicate with each microservice and verify that communication is allowed only between the specified microservices.
+Additional Rule:
+
+Add an additional Network Policy rule to allow communication from the client pod to all microservices.
+Validation:
+
+Validate that the client pod can communicate with all microservices after the additional rule is applied.
+Cleanup:
+
+Delete the Network Policies and pods created during the exercise.
+-------------------------------------------------------------------------------------------------------
+Solution:
+a) Create a default deny Network Policy in the microservices-ns namespace to block all incoming and outgoing traffic.
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy
+  namespace: microservice-ns
+spec:
+  policyTypes:
+  - Egress
+  - Ingress
+
+b) Allow traffic from Service A to Service B.
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy
+  namespace: microservice-ns
+spec:
+  podSelector:
+    matchLabels:
+      role: a
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          role: b
+          
+c) Allow traffic from Service B to Service C.
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy
+  namespace: microservice-ns
+spec:
+  podSelector:
+    matchLabels:
+      role: b
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          role: c
+
+d) Allow traffic from Service C to Service A.
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy
+  namespace: microservice-ns
+spec:
+  podSelector:
+    matchLabels:
+      role: c
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          role: a
+
+e) Add an additional Network Policy rule to allow communication from the client pod to all microservices😎.
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy
+  namespace: microservice-ns
+spec:
+  podSelector:
+    matchLabels:
+      app: client
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          role: a
+    - podSelector:
+        matchLabels:
+          role: b
+    - podSelector:
+        matchLabels:
+          role: c
