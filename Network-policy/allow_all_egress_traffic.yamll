@@ -1,0 +1,13 @@
+---
+apiVersion: networking.k8s.io1
+kind: NetworkPolicy
+metadata:
+  name: allow-all-egress
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+  egress:
+    - {}
+--------------------------------------------------------------------------------------------------------------
+It allows all egress traffic.
