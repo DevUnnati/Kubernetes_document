@@ -1,0 +1,43 @@
+Exercise: Allow Communication Between Pods in Different Namespaces
+Setup:
+
+Create two namespaces: frontend-ns and backend-ns.
+Deploy a pod named frontend-pod in the frontend-ns namespace with the label app=frontend.
+Deploy a pod named backend-pod in the backend-ns namespace with the label app=backend.
+Default Deny:
+
+Create a default deny Network Policy in both namespaces to block all incoming traffic.
+Allow Communication:
+
+Create a Network Policy in the frontend-ns namespace.
+Allow incoming traffic to frontend-pod only from pods labeled app=backend in the backend-ns namespace.
+Verification:
+
+Deploy a test pod in the backend-ns namespace labeled app=test.
+Attempt to access the frontend-pod from the test pod.
+Validation:
+
+Validate that the communication is successful only between backend-pod and frontend-pod and is denied from the test pod.
+Cleanup:
+
+Delete the Network Policies and pods created during the exercise.
+
+
+---------------------------------------------------------------------------------------------------------
+Solution:
+
+network-policy.yaml
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy
+  namespace: frontend
+spec:
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          role: backend
