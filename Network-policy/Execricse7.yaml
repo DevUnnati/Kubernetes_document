@@ -1,0 +1,23 @@
+Create a Namespace:
+
+Create a Kubernetes namespace named label-policies.
+Deploy Labeled Pods:
+
+Deploy three pods in the label-policies namespace, each with different labels (e.g., app=frontend, app=backend, app=database).
+Label-Based Allow Policy:
+
+Create a Network Policy that allows communication only between pods labeled as app=frontend and app=backend.
+Label-Based Deny Policy:
+
+Create a Network Policy that denies communication between pods labeled as app=frontend and app=database.
+Verification:
+
+Deploy a test pod in the label-policies namespace without any specific labels.
+Verify that the test pod can communicate with the app=frontend pod.
+Verify that the test pod is denied communication with the app=backend and app=database pods based on the label-based policies.
+Additional Policies:
+
+Create additional label-based policies to allow or deny communication based on your preference. For example, create a policy that allows communication only between pods labeled as tier=frontend and tier=backend.
+Cleanup:
+
+Delete the label-policies namespace and associated resources.
