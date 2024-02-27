@@ -1,0 +1,90 @@
+Exercise: Namespace Isolation with Network Policies
+Create Namespaces:
+
+Create two Kubernetes namespaces named namespace-1 and namespace-2.
+Deploy Applications:
+
+Deploy a simple application in each namespace. Choose any container image for your applications.
+Default Deny Policy:
+
+Implement a default deny Network Policy in each namespace to block all incoming and outgoing traffic.
+Allow Intra-Namespace Communication:
+
+Create Network Policies in each namespace to allow communication within the same namespace. Ensure pods within the same namespace can communicate freely.
+Deny Inter-Namespace Communication:
+
+Design Network Policies to explicitly deny communication between pods in different namespaces. Pods in namespace-1 should not be able to communicate with pods in namespace-2 and vice versa.
+Verification:
+
+Deploy a client pod in each namespace and attempt to communicate with pods within the same namespace. Ensure that communication is allowed only within the same namespace.
+Test Inter-Namespace Communication:
+
+Verify that pods in namespace-1 cannot communicate with pods in namespace-2 and vice versa, as per the Network Policies.
+Cleanup:
+
+Delete the namespaces and associated resources created during the exercise.
+----------------------------------------------------------------------------------------------------------
+Solution:
+a) Default Deny Policy:
+
+Implement a default deny Network Policy in each namespace to block all incoming and outgoing traffic.
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy
+  namespace: s2
+spec:
+  policyTypes:
+  - Ingress
+  - Egress
+  
+b)Allow Intra-Namespace Communication:
+
+Create Network Policies in each namespace to allow communication within the same namespace. Ensure pods within the same namespace can communicate freely.
+Deny Inter-Namespace Communication:
+
+Design Network Policies to explicitly deny communication between pods in different namespaces. Pods in namespace-1 should not be able to communicate with pods in namespace-2 and vice versa..
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-access-s1
+  namespace: s1
+spec:
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          app: s1
+
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+             app: s1
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-access-s2
+  namespace: s2
+spec:
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          app: s2
+
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+             app: s2
