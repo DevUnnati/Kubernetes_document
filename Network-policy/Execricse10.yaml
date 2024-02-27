@@ -1,0 +1,27 @@
+Create a Namespace:
+
+Create a Kubernetes namespace named logging-monitoring.
+Deploy Pods:
+
+Deploy two sample pods in the logging-monitoring namespace (e.g., Nginx pods). Use labels to distinguish between the pods.
+Network Policy with Logging:
+
+Create a Network Policy in the logging-monitoring namespace that includes logging for ingress and egress traffic.
+Allow incoming traffic only to pods labeled as app=backend.
+Allow outgoing traffic only from pods labeled as app=frontend.
+Enable logging for both ingress and egress rules.
+Verification:
+
+Deploy a test pod in the logging-monitoring namespace.
+Generate network traffic that matches the Network Policy rules.
+Verify that logs are generated and capture the expected network traffic based on the Network Policy rules.
+Monitoring and Analysis:
+
+Use monitoring tools (e.g., kubectl logs, or your preferred log aggregation system) to analyze the logs and confirm that the Network Policy rules are being logged correctly.
+Adjust Policies:
+
+Modify the Network Policy to include additional rules or adjust existing rules.
+Generate traffic that matches the modified rules and observe the corresponding logs.
+Cleanup:
+
+Delete the logging-monitoring namespace and associated resources.
