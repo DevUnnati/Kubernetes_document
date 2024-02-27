@@ -1,0 +1,21 @@
+Create a Namespace:
+
+Create a Kubernetes namespace named secure-communication.
+Deploy Applications:
+
+Deploy three sample applications in the secure-communication namespace. Use labels to distinguish between the applications (e.g., app=app-1, app=app-2, app=app-3).
+Default Deny Policy:
+
+Create a Network Policy in the secure-communication namespace that enforces a default deny for all pods. This policy should block all ingress and egress traffic.
+Specific Allow Policy:
+
+Create Network Policies to allow communication only for specific pods or namespaces. For example:
+Allow communication between pods labeled as app=app-1 and app=app-2.
+Allow communication from the app=app-3 pod to any pod in the default namespace.
+Verification:
+
+Deploy test pods labeled with the appropriate labels in the secure-communication namespace.
+Verify that communication is allowed only as specified in the specific allow policies and is denied otherwise.
+Cleanup:
+
+Delete the secure-communication namespace and associated resources.
