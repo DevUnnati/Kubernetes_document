@@ -1,0 +1,22 @@
+Create Two Namespaces:
+
+Create two Kubernetes namespaces named namespace-1 and namespace-2.
+Deploy Applications:
+
+Deploy a sample application in each namespace. You can use Nginx as an example.
+Network Policy for Namespace-1:
+
+Create a Network Policy in namespace-1 that allows egress traffic only to a specific external IP address (e.g., 203.0.113.1).
+Network Policy for Namespace-2:
+
+Create a Network Policy in namespace-2 that allows egress traffic only to a specific external domain (e.g., example.com).
+Deployment Verification:
+
+Deploy a test pod in each namespace.
+Try to make an HTTP request from the pod in namespace-1 to the specific external IP address (203.0.113.1). Verify that the communication is allowed.
+Attempt to make an HTTP request from the pod in namespace-1 to an external domain (e.g., example.com). Verify that the communication is blocked.
+Similarly, try to make an HTTP request from the pod in namespace-2 to the specific external IP address (203.0.113.1). Verify that the communication is blocked.
+Attempt to make an HTTP request from the pod in namespace-2 to the external domain (example.com). Verify that the communication is allowed.
+Cleanup:
+
+Delete the namespaces and associated resources created during the exercise.
