@@ -1,0 +1,31 @@
+Exercise: Pod-to-Pod Communication Control with Network Policies
+
+Create a Namespace:
+
+Create a Kubernetes namespace named pod-communication-control.
+Deploy Pods:
+
+Deploy several sample pods in the pod-communication-control namespace. Use labels to distinguish between different types of pods (e.g., app=frontend, app=backend, app=database).
+Default Allow Policy:
+
+Create a Network Policy in the pod-communication-control namespace that allows all pod-to-pod communication by default. This policy will serve as a baseline.
+Pod-to-Pod Communication Control Policies:
+
+Create Network Policies to control pod-to-pod communication:
+Allow communication only between pods labeled as app=frontend and app=backend.
+Allow communication only from pods labeled as app=backend to pods labeled as app=database.
+Deny communication from pods labeled as app=frontend to pods labeled as app=database.
+Verification:
+
+Deploy test pods with the appropriate labels in the pod-communication-control namespace.
+Test and verify that only allowed traffic, as defined by the Network Policies, is permitted. For example:
+Verify that pods labeled as app=frontend can communicate with pods labeled as app=backend.
+Verify that pods labeled as app=backend can communicate with pods labeled as app=database.
+Verify that pods labeled as app=frontend cannot communicate with pods labeled as app=database.
+Additional Policies:
+
+Experiment with additional policies to control pod-to-pod communication based on your preferences. For example:
+Allow communication between pods in the same namespace but deny communication across namespaces.
+Cleanup:
+
+Delete the pod-communication-control namespace and associated resources.
