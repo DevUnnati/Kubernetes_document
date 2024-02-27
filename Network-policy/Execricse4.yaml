@@ -1,0 +1,124 @@
+Exercise: Multi-Tier Application with Network Policies
+Setup:
+
+Create a Kubernetes namespace for your multi-tier application: multitier-ns.
+Deploy the following pods:
+Frontend Pod: app=frontend
+Backend Pod: app=backend
+Database Pod: app=database
+Ensure each component has a few replicas.
+Default Deny:
+
+Create a default deny Network Policy in the multitier-ns namespace to block all incoming and outgoing traffic.
+Allow Communication:
+
+Create Network Policies to allow communication between the necessary components:
+Allow traffic from Frontend to Backend.
+Allow traffic from Backend to Database.
+Verification:
+
+Deploy a client pod labeled app=client in the multitier-ns namespace.
+From the client pod, attempt to communicate with Frontend, Backend, and Database, and verify that communication is allowed only between the necessary components.
+Deny Unauthorized Communication:
+
+Add additional Network Policies to deny unauthorized communication:
+Deny traffic from Frontend to Database.
+Deny traffic from Backend to Frontend.
+Validation:
+
+Validate that the client pod cannot communicate with unauthorized components based on the additional Network Policies.
+Cleanup:
+
+Delete the Network Policies and pods created during the exercise.
+--------------------------------------------------------------------------------------------------------
+Solution:
+a) Create a default deny Network Policy in the multitier-ns namespace to block all incoming and outgoing traffic.
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-policy
+  namespace: multitier-ns
+spec:
+  policyTypes:
+  - Ingress
+  - Egress
+
+b) Create Network Policies to allow communication between the necessary components:
+Allow traffic from Frontend to Backend.
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-frontend-backend
+  namespace: multitier-ns
+spec:
+  podSelector:
+    matchLabels:
+      app: fd
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+           app: bd
+
+c) Allow traffic from the Backend to the Database.
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: backend-database-policy
+  namespace: multitier-ns
+spec:
+  podSelector:
+    matchLabels:
+      app: bd
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - podSelector:
+       matchLabels:
+         app: db
+d) Deny traffic from Frontend to Database.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-all-ingress-to-database
+  namespace: multitier-ns
+spec:
+  podSelector:
+    matchLabels:
+      app: db
+  ingress:
+  - from:
+    - podSelector:
+        matchExpressions:
+          - key: app
+            operator: NotIn
+            values:
+             - fd
+  policyTypes:
+  - Ingress
+e) Deny traffic from Backend to Frontend.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-all-ingress-to-database
+  namespace: multitier-ns
+spec:
+  podSelector:
+    matchLabels:
+      app: bd
+  ingress:
+  - from:
+    - podSelector:
+        matchExpressions:
+          - key: app
+            operator: NotIn
+            values:
+             - fd
+  policyTypes:
+  - Ingress
