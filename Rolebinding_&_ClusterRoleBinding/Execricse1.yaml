@@ -1,0 +1,8 @@
+Exercise 1: Role Binding
+Create a Role named pod-reader that allows read-only access to Pods in the default namespace.
+
+Create a Service Account named pod-reader-sa.
+
+Create a Role Binding named pod-reader-binding that associates the pod-reader Role with the pod-reader-sa Service Account.
+
+Verify that the Role Binding is correctly applied by checking the permissions of the Service Account.
