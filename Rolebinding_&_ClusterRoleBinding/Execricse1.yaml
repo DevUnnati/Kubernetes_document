@@ -6,3 +6,21 @@ Create a Service Account named pod-reader-sa.
 Create a Role Binding named pod-reader-binding that associates the pod-reader Role with the pod-reader-sa Service Account.
 
 Verify that the Role Binding is correctly applied by checking the permissions of the Service Account.
+---------------------------------------------------------------------------------------------------------
+Solution:
+a) Create a Role named pod-reader that allows read-only access to Pods in the default namespace.
+---
+ kubectl create role pod-reader --verb=get,list,watch --resource=pod
+---
+b) Create a Service Account named pod-reader-sa.
+---
+kubectl create sa pod-reader-sa
+---
+c) Create a Role Binding named pod-reader-binding that associates the pod-reader Role with the pod-reader-sa Service Account.
+---
+ kubectl create rolebinding pod-reader-binding --role=pod-reader --serviceaccount=default:pod-reader-sa
+---
+d) Verify that the Role Binding is correctly applied by checking the permissions of the Service Account.
+---
+ kubectl auth can-i get pods --as system:serviceaccount:default:pod-reader-sa -n default
+---
