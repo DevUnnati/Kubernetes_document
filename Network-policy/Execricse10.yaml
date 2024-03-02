@@ -25,3 +25,27 @@ Generate traffic that matches the modified rules and observe the corresponding l
 Cleanup:
 
 Delete the logging-monitoring namespace and associated resources.
+-------------------------------------------------------------------------------------------------------
+Solution:
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-backend-traffic
+  namespace: lm
+spec:
+  podSelector:
+    matchLabels:
+      app: bd
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: fd
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: fd
