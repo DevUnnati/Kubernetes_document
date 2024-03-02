@@ -29,3 +29,120 @@ Allow communication between pods in the same namespace but deny communication ac
 Cleanup:
 
 Delete the pod-communication-control namespace and associated resources.
+-------------------------------------------------------------------------------------------------------
+
+Solution:
+Command:
+
+a) Create namespace:
+kubectl create ns pod-communication-control
+
+b) Deploy several sample pods in the pod-communication-control namespace. Use labels to distinguish between different types of pods (e.g., app=frontend, app=backend, app=database).:
+kubectl run nginx1 --image=nginx -n pcc --labels=app=fd
+kubectl run nginx2 --image=nginx -n pcc --labels=app=bd
+kubectl run nginx3 --image=nginx -n pcc --labels=app=db
+
+c) Deny communication from pods labeled as app=frontend to pods labeled as app=database:
+kubectl expose pod nginx1 --port=8080 --target-port=80 -n pcc
+kubectl expose pod nginx2 --port=8080 --target-port=80 -n pcc
+kubectl expose pod nginx3 --port=8080 --target-port=80 -n pcc
+
+d) Create a Network Policy in the pod-communication-control namespace that allows all pod-to-pod communication by default. This policy will serve as a baseline:
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-all-ingress
+  namespace: pcc
+spec:
+  podSelector: {}
+  ingress:
+  - {}
+  egress:
+  - {}
+  policyTypes:
+  - Ingress
+  - Egress
+
+e) Allow communication only between pods labeled as app=frontend and app=backend:
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-frontend-backend
+  namespace: pcc
+spec:
+  podSelector:
+    matchLabels:
+      app: fd
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: bd
+  
+f) Allow communication only from pods labeled as app=backend to pods labeled as app=database:
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-backend-database
+  namespace: pcc
+spec:
+  podSelector:
+    matchLabels:
+      app: bd
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: db
+e) Deny communication from pods labeled as app=frontend to pods labeled as app=database:
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-frontend-database
+  namespace: pcc
+spec:
+  podSelector:
+    matchLabels:
+      app: fd
+  policyTypes:
+  - Egress
+  egress:
+  - from:
+    - podSelector:
+        matchExpressions:
+          - key: app
+            operator: NotIn
+            values:
+             - db
+
+f) Allow communication between pods in the same namespace but deny communication across namespaces:
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-same-namespace
+  namespace: pcc
+spec:
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector: {}
+  egress:
+  - to:
+    - podSelector: {}
+
+-------------------------------------------------------------------------------------------------------
+Verification:
+a) Deploy test pods with the appropriate labels in the pod-communication-control namespace:
+kubectl run test --image=nginx -n pcc
+
