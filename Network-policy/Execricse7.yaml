@@ -21,7 +21,7 @@ Create additional label-based policies to allow or deny communication based on y
 Cleanup:
 
 Delete the label-policies namespace and associated resources.
-
+------------------------------------------------------------------------------------------------------
 Solution:
 
 Commands:
