@@ -15,7 +15,80 @@ Allow communication from the app=app-3 pod to any pod in the default namespace.
 Verification:
 
 Deploy test pods labeled with the appropriate labels in the secure-communication namespace.
-Verify that communication is allowed only as specified in the specific allow policies and is denied otherwise.
+Verify that communication is allowed only as specified in the specific allowed policies and is denied otherwise.
 Cleanup:
 
 Delete the secure-communication namespace and associated resources.
+-----------------------------------------------------------------------------------------------------------
+Solution:
+Command:
+a) Create namespace:
+kubectl create ns sc
+
+b) Create pods:
+kubectl run nginx1 --image=nginx -n sc --label=app=app-1
+kubectl run nginx2 --image=nginx -n sc --labels=app=app-2
+kubectl run nginx3 --image=nginx -n sc --labels=app=app-3
+
+c) Create Service:
+kubectl expose pod nginx1 --port=8080 --target-port=80 -n sc
+kubectl expose pod nginx2 --port=8080 --target-port=80 -n sc
+kubectl expose pod nginx3 --port=8080 --target-port=80 -n sc
+
+d) Create a Network Policy in the secure-communication namespace that enforces a default deny for all pods:
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all-network
+  namespace: sc
+spec:
+  policyTypes:
+  - Ingress
+  - Egress
+
+e) Allow communication between pods labeled as app=app-1 and app=app-2:
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-app1-app2
+  namespace: sc
+spec:
+  podSelector:
+    matchLabels:
+      app: app-1
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: app-2
+f) Allow communication from the app=app-3 pod to any pod in the default namespace:
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-app3-default
+  namespace: sc
+spec:
+  podSelector:
+    matchLabels:
+      app: app-3
+  policyTypes:
+  - Egress
+  ingress:
+  egress:
+  - to:
+    - namespaceSelector:
+         matchLabels:
+           kubernetes.io/metadata.name: default
+--------------------------------------------------------------------------------------------------------
+Verification:
+
+a) Create a test pod :
+kubectl run test --image=nginx -n sc
+
+b) Verify access:
+kubectl exec -it pods test -n sc -- curl http://<service-name> or <service-ip>:<port-number>
