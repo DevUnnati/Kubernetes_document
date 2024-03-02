@@ -21,3 +21,67 @@ Create additional label-based policies to allow or deny communication based on y
 Cleanup:
 
 Delete the label-policies namespace and associated resources.
+
+Solution:
+for performing this activity
+a) Backend pod - Ingress - frontend
+b) Database pod - Ingress -Backend
+c) frontend pod - Ingress - Database
+
+a) Create a Network Policy that allows communication only between pods labeled as app=frontend and app=backend.
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy1
+  namespace: lp
+spec:
+  podSelector:
+    matchLabels:
+      app: bd
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+           app: fd
+                     
+b) Create a Network Policy that denies communication between pods labeled as app=frontend and app=database.
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy2
+  namespace: lp
+spec:
+  podSelector:
+    matchLabels:
+      app: db
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: bd
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy3
+  namespace: lp
+spec:
+  podSelector:
+    matchLabels:
+      app: fd
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchExpressions:
+          - key: app
+            operator: NotIn
+            values:
+              - db
