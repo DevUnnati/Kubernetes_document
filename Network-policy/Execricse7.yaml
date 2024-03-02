@@ -23,6 +23,22 @@ Cleanup:
 Delete the label-policies namespace and associated resources.
 
 Solution:
+
+Commands:
+a) for Creating ns:
+   kubectl create ns labels-policies
+
+b) for creating pods:
+   kubectl run nginx1 --image=nginx -n labels-policies --label=app=frontend
+   kubectl run nginx2 --image=nginx -n labels-policies --label=app=backend
+   kubectl run nginx3 --image=nginx -n labels-policies --label=app=database
+
+c) for exposing services:
+   kubectl expose service nginx1 --port=8080 --target-port=80 -n label-policies
+   kubectl expose service nginx2 --port=8080 --target-port=80 -n label-policies
+   kubectl expose service nginx3 --port=8080 --target-port=80 -n label-policies
+   
+
 for performing this activity
 a) Backend pod - Ingress - frontend
 b) Database pod - Ingress -Backend
@@ -85,3 +101,11 @@ spec:
             operator: NotIn
             values:
               - db
+
+Verification:
+a) Create test pods:
+kubectl run test --image=nginx -n label-policies
+
+b) Verify that the test pod can communicate with the app=frontend pod:
+Verify that the test pod is denied communication with the app=backend and app=database pods based on the label-based policies:
+kubectl exec -it test -n label-policies bash -- curl http://<service-ip> or <service-name>:<port-number>
