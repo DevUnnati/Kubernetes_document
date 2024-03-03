@@ -1,0 +1,4 @@
+Exercise 2: Resource-Level Permissions
+Objective: Extend Role Binding for more granular access.
+
+Modify the existing read-pods Role to grant permissions only to Pods with the label env=production.
