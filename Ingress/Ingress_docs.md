@@ -184,32 +184,32 @@ client----> Ingress-managed loadbalancer ----> Ingress(172.91.123.132)-->Host: f
                                                       |---> Host: bar.foo.com --->	Port:80 --> Connected two Pod
 						      
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: name-virtual-host-ingress
-spec:
-  rules:
-  - host: foo.bar.com
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: service1
-            port:
-              number: 80
-  - host: bar.foo.com
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: service2
-            port:
-              number: 80
+     apiVersion: networking.k8s.io/v1
+     kind: Ingress
+     metadata:
+       name: name-virtual-host-ingress
+     spec:
+      rules:
+       - host: foo.bar.com
+         http:
+           paths:
+            - pathType: Prefix
+              path: "/"
+              backend:
+                service:
+                  name: service1
+                  port:
+                    number: 80
+       - host: bar.foo.com
+         http:
+         paths:
+         - pathType: Prefix
+           path: "/"
+           backend:
+             service:
+               name: service2
+               port:
+                 number: 80
 			 
 			 
 <h6> d) TLS: </h6>
