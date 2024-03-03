@@ -1,0 +1,36 @@
+Exercise 7: Troubleshooting
+Objective: Identify and fix common issues.
+
+Create a Role Binding with a non-existent Role and Service Account. Resolve the resulting error.
+Create a Role Binding with a valid Role but an invalid Service Account. Resolve the resulting error.
+Create a Role Binding with a valid Service Account but an invalid Role. Resolve the resulting error.
+--------------------------------------------------------------------------------------------------------
+
+Solution:
+a) Create a Role Binding with a non-existent Role and Service Account. Resolve the resulting error:
+
+command: kubectl create rolebinding error-binding --role=error-role --serviceaccount=default:error-sa
+
+
+command: kubectl auth can-i get pods --as=system:serviceaccount:default:error-sa
+no - RBAC: role.rbac.authorization.k8s.io "error-role" not found
+
+
+command: kubectl create role error-role --verb=get,list,watch --resource=deployment 
+role.rbac.authorization.k8s.io/error-role created
+
+command: kubectl get role
+NAME         CREATED AT
+error-role   2024-03-03T11:49:45Z
+read-pods    2024-03-03T11:39:21Z
+
+command: kubectl auth can-i get pods --as=system:serviceaccount:default:error-sa
+no
+
+command: kubectl get sa
+NAME               SECRETS   AGE
+cluster-admin-sa   0         17m
+default            0         28d
+pod-reader-sa      0         9m41s
+
+
