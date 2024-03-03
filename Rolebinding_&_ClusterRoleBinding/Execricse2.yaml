@@ -2,3 +2,31 @@ Exercise 2: Resource-Level Permissions
 Objective: Extend Role Binding for more granular access.
 
 Modify the existing read-pods Role to grant permissions only to Pods with the label env=production.
+
+----------------------------------------------------------------------------------------------------------
+Solution:
+role.yaml:
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  creationTimestamp: "2024-03-03T07:12:17Z"
+  name: pod-reader
+  namespace: default
+  resourceVersion: "3936"
+  uid: 2ebe44a6-ffa1-4192-9d1d-629f9fbbcb96
+rules:
+- apiGroups:
+  - ""
+  resourceNames:
+  - ""
+  - env=production
+  resources:
+  - pods
+  verbs:
+  - watch
+  - list
+  - get
+
+command:
+kubectl get pods -n default --as=system:serviceaccount:default:pod-reader-sa
