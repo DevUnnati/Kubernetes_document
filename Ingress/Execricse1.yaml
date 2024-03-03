@@ -1,0 +1,91 @@
+I am using Killercoda to perform this exercise.
+
+Exercise: Basic Ingress Setup
+Objective:
+
+Deploy a simple application.
+Expose the application using a Kubernetes Service.
+Create an Ingress resource to route traffic to the deployed service.
+Instructions:
+
+Deploy a Sample Application:
+
+Create a deployment named sample-deployment with three replicas.
+Use the NGINX Alpine image for the containers.
+Assign the label app=sample-app to the deployment.
+Expose the Application with a Service:
+
+Create a service named sample-service to expose the deployment.
+Use port 80 for both the service and the targetPort.
+Create an Ingress Resource:
+
+Create an Ingress resource named basic-ingress.
+Configure the Ingress to route traffic based on the hostname test.example.com.
+Map the path / to the sample-service with a pathType of Prefix.
+Update Hosts File:
+
+Open your local hosts file.
+Map the hostname test.example.com to the IP address of your Ingress controller's service. If you're using a local setup, you can use the cluster's external IP.
+Test the Ingress:
+
+Open a web browser and navigate to http://test.example.com. Verify that you can access the NGINX welcome page.
+
+----------------------------------------------------------------------------------------------------------
+Solution:
+a) Deploy a Sample Application:
+
+Create a deployment named sample-deployment with three replicas.
+Use the NGINX Alpine image for the containers.
+Assign the label app=sample-app to the deployment.
+command: 
+    kubectl create deploy sample-deployment --image=nginx:alpine --replicas=3
+    kubectl label deploy sample-deployment app1=sample-app
+
+b) Expose the Application with a Service:
+
+Create a service named sample-service to expose the deployment.
+Use port 80 for both the service and the targetPort.
+command:
+    kubectl expose deploy sample-deployment --port=80 --target-port=80 --name=sample-service
+
+
+c) Create an Ingress Resource:
+Create an Ingress resource named basic-ingress.
+Configure the Ingress to route traffic based on the hostname test.example.com.
+Map the path / to the sample-service with a pathType of Prefix.
+command:
+   kubectl create ingress basic-ingress --rule=test.example.com/=sample-service:80
+   ---
+   apiVersion: networking.k8s.io/v1
+   kind: Ingress
+   metadata:
+     name: basic-ingress
+     namespace: default
+     annotations:
+       nginx.ingress.kubernetes.io/rewrite-target: /
+   spec:
+     ingressClassName: nginx
+     rules:
+     - host: test.example.com
+       http:
+         paths:
+         - backend:
+            service:
+              name: sample-service
+              port:
+                number: 80
+           path: /
+           pathType: Prefix                                                                                                                                                                                                  
+
+d) Update Hosts File:
+Open your local hosts file.
+Map the hostname test.example.com to the IP address of your Ingress controller's service. If you're using a local setup, you can use the cluster's external IP.
+
+vi /etc/hosts
+127.0.0.1  test.example.com
+
+e) Test the Ingress:
+Open a web browser and navigate to http://test.example.com. Verify that you can access the NGINX welcome page.
+curl http://test.example.com:30080/
+
+
