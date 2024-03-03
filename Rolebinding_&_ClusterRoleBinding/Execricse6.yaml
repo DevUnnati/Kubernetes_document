@@ -1,0 +1,17 @@
+Exercise 6: Updating Permissions
+Objective: Update permissions dynamically.
+
+Modify the existing read-pods Role to include the ability to list and delete Pods.
+--------------------------------------------------------------------------------------------------------
+Solution:
+if role is not already exists. you can create role.
+   kubectl create role read-pods --verb=get,list,watch --resource=pod
+   kubectl create serviceaccount pod-reader-sa
+   kubectl create rolebinding pod-reader-binding --role=read-pods --serviceaccount=default:pod-reader-sa
+  
+a) Modify the existing read-pods Role to include the ability to list and delete Pods:
+    kubectl edit role read-pods
+---------------------------------------------------------------------------------------------------------
+Verification:
+Command:
+kubectl auth can-i delete pods --as=system:serviceaccount:default:pod-reader-sa
