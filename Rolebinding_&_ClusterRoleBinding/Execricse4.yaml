@@ -1,0 +1,6 @@
+Exercise 4: Namespace-Level Access
+Objective: Implement Role Binding across multiple namespaces.
+
+Create a ClusterRole named namespace-reader that grants read access to all resources in any namespace.
+Create a Service Account named namespace-reader-sa.
+Create a ClusterRoleBinding named namespace-reader-binding associating the namespace-reader ClusterRole with the namespace-reader-sa Service Account.
