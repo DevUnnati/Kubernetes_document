@@ -1,0 +1,16 @@
+Exercise 5: Cluster-Wide Permissions
+Objective: Establish Cluster Role Binding.
+
+Create a ClusterRole named cluster-admin granting full control over all resources in the cluster.
+Create a Service Account named cluster-admin-sa.
+Create a ClusterRoleBinding named cluster-admin-binding associating the cluster-admin ClusterRole with the cluster-admin-sa Service Account.
+-----------------------------------------------------------------------------------------------------------
+Solution:
+a) Create a ClusterRole named cluster-admin granting full control over all resources in the cluster:
+kubectl create clusterrole cluster-admin1 --verb=* --resource=*
+
+b) Create a Service Account named cluster-admin-sa:
+kubectl create serviceaccount cluster-admin-sa
+
+c) Create a ClusterRoleBinding named cluster-admin-binding associating the cluster-admin ClusterRole with the cluster-admin-sa Service Account:
+kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin1 --serviceaccount=default:cluster-admin-sa
