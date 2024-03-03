@@ -1,0 +1,29 @@
+Exercise 3: Role Inheritance
+Create a Role named secret-reader that grants read access to Secrets in the default namespace.
+
+Create a Role named configmap-reader that grants read access to ConfigMaps in the default namespace.
+
+Create a Service Account named data-reader-sa.
+
+Create a Role Binding named data-reader-binding that associates both secret-reader and configmap-reader Roles with the data-reader-sa Service Account.
+
+Verify that the Service Account has the combined permissions of both Roles.
+-----------------------------------------------------------------------------------------------------------
+Solution:
+
+a) Create a Role named secret-reader that grants read access to Secrets in the default namespace:
+ kubectl create role secret-reader --verb=list,get,watch --resource=secret
+ 
+b) Create a Role named configmap-reader that grants read access to ConfigMaps in the default namespace:
+kubectl create role configmap-reader --verb=list,get,watch --resource=configmap
+
+c) Create a Service Account named data-reader-sa:
+kubectl create sa data-reader-sa
+
+d) Create a Role Binding named data-reader-binding that associates both secret-reader and configmap-reader Roles with the data-reader-sa Service Account:
+kubectl create rolebinding data-reader-binding-confgimap --role=configmap-reader --serviceaccount=data-reader-sa
+kubectl create rolebinding data-reader-binding-confgimap --role=configmap-reader --serviceaccount=default:data-reader-sa
+
+e) Verify that the Service Account has the combined permissions of both Roles:
+kubectl auth can-i get configmap --as=system:serviceaccount:default:data-reader-sa
+kubectl auth can-i get secret --as=system:serviceaccount:default:data-reader-sa
