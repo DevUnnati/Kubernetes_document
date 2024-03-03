@@ -1,0 +1,31 @@
+Exercise 9: Service Account Rotation
+Objective: Rotate Service Account credentials.
+
+Implement a Service Account rotation policy by creating a new Service Account and updating the Role Binding to use the new Service Account.
+
+------------------------------------------------------------------------------------------------------------
+Soultion:
+
+a) Create serviceaccount update-sa
+command: kubectl create sa update-sa
+serviceaccount/update-sa created
+
+b) Edit existing binding rolebinding pod-reader-binding
+command: kubectl edit rolebinding pod-reader-binding 
+rolebinding.rbac.authorization.k8s.io/pod-reader-binding edited
+
+Verification:
+
+c) Describe the rolebinding and verify it's updated or not:
+command: kubectl describe rolebinding pod-reader-binding
+Name:         pod-reader-binding
+Labels:       <none>
+Annotations:  <none>
+Role:
+  Kind:  Role
+  Name:  read-pods
+Subjects:
+  Kind            Name       Namespace
+  ----            ----       ---------
+  ServiceAccount  update-sa  default
+controlplane $ 
