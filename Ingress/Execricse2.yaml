@@ -1,0 +1,34 @@
+Exercise: TLS Termination
+Objective:
+
+Enable TLS termination on the Ingress.
+Use a self-signed certificate for simplicity.
+Instructions:
+
+Generate a Self-Signed Certificate:
+
+Use OpenSSL or any tool of your choice to generate a self-signed SSL certificate. Save the private key and certificate in separate files.
+Do not include passphrase for simplicity.
+Create a Kubernetes Secret:
+
+Create a Kubernetes Secret named tls-secret to store the generated SSL certificate and private key.
+Use the kubectl create secret tls command.
+Update the Ingress Resource:
+
+Update the existing Ingress resource (basic-ingress.yaml) to include TLS configuration. Use the secret tls-secret you created.
+Configure the Ingress to route traffic based on the hostname secure.example.com.
+Map the path / to the sample-service with a pathType of Prefix.
+Apply the Ingress with TLS:
+
+Apply the updated Ingress resource with TLS configuration.
+Update Hosts File:
+
+If needed, update your local hosts file to include the Ingress controller's IP.
+Access the Secured URL:
+
+Open a web browser and navigate to https://secure.example.com. Since this is a self-signed certificate, you might encounter a security warning. Proceed to the site.
+Note:
+
+Remember to use http or https based on your local setup and whether you have configured TLS in your Ingress.
+If you encounter any issues, refer to the official Kubernetes documentation or ask for assistance.
+Performing this exercise will give you hands-on experience with enabling TLS termination on the Ingress using a self-signed certificate. Good luck!
