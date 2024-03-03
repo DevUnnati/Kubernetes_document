@@ -121,16 +121,16 @@ ingressclass.kubernetes.io/is-default-class = true
 This type of Ingress allows you to expose a single service.
 
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: test-ingress
-spec:
-  defaultBackend:
-    service:
-      name: test
-      port:
-        number: 80
+    apiVersion: networking.k8s.io/v1 
+    kind: Ingress
+    metadata:
+     name: test-ingress
+    spec:
+      defaultBackend:
+      service:
+        name: test
+	    port:
+          number: 80
 	
 Output:
 
@@ -148,29 +148,29 @@ client---> Ingress-managed loadbalancer--> Ingress,172.90.12.42 ---> /foo --> po
 													   |----> /bar --> prt:8080 --> connected by wo pod
 											
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: simple-fanout-example
-spec:
-  rules:
-  - host: foo.bar.com
-    http:
-      paths:
-      - path: /foo
-        pathType: Prefix
-        backend:
-          service:
-            name: service1
-            port:
-              number: 4200
-      - path: /bar
-        pathType: Prefix
-        backend:
-          service:
-            name: service2
-            port:
-              number: 8080
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      name: simple-fanout-example
+    spec:
+      rules:
+      - host: foo.bar.com
+        http:
+         paths:
+         - path: /foo
+           pathType: Prefix
+           backend:
+             service:
+               name: service1
+               port:
+                 number: 4200
+         - path: /bar
+           pathType: Prefix
+           backend:
+             service:
+               name: service2
+               port:
+                 number: 8080
         
 Note: Depending on the Ingress controller you are using, you may need to create a default-http-backend Service.
 
@@ -223,26 +223,26 @@ The TLS secret must contain a key named tls.crt and tls.key that contains the ce
 The TLS secret you create comes from a certificate that contains a Common Name, also known as FQDN.
 
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: tls-example-ingress
-spec:
-  tls:
-  - hosts:
-      - https-example.foo.com
-    secretName: testsecret-tls
-  rules:
-  - host: https-example.foo.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: service1
-            port:
-              number: 80
+    apiVersion: networking.k8s.io/v1
+     kind: Ingress
+     metadata:
+       name: tls-example-ingress
+     spec:
+      tls:
+       - hosts:
+          - https-example.foo.com
+         secretName: testsecret-tls
+      rules:
+       - host: https-example.foo.com
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+           service:
+             name: service1
+             port:
+               number: 80
 			  
 <h6> e) Load balancing: </h6>
 
