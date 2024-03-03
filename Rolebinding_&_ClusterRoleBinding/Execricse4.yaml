@@ -4,3 +4,11 @@ Objective: Implement Role Binding across multiple namespaces.
 Create a ClusterRole named namespace-reader that grants read access to all resources in any namespace.
 Create a Service Account named namespace-reader-sa.
 Create a ClusterRoleBinding named namespace-reader-binding associating the namespace-reader ClusterRole with the namespace-reader-sa Service Account.
+----------------------------------------------------------------------------------------------------------
+Solution:
+a) Create a ClusterRole named namespace-reader that grants read access to all resources in any namespace:
+    kubectl create clusterrole namespace-reader --verb=list,get,watch --resource=* 
+b) Create a Service Account named namespace-reader-sa:
+   kubectl create serviceaccount namespace-reader-sa
+c) Create a ClusterRoleBinding named namespace-reader-binding associating the namespace-reader ClusterRole with the namespace-reader-sa Service Account:
+   kubectl create clusterrolebinding namespace-reader-binding --clusterrole=namespace-reader --serviceaccount=default:namespace-reader-sa
