@@ -30,3 +30,65 @@ Experiment with additional paths defined in your Ingress resource.
 Bonus: Add TLS Termination (Optional):
 
 If you want an extra challenge, modify the Ingress resource to include TLS termination for secure communication.
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+Solution:
+a) Deployment named app1-deployment with the label app=app1.
+command: kubectl create deploy app1 --image=nginx --replicas=2
+         kubectl label deploy app1 app=app1
+
+b) Deployment named app2-deployment with the label app=app2
+command: kubectl create deploy app2 --image=nginx --replicas=2
+         kubectl label deploy app1 app=app1 
+
+c) Services named app1-service and app2-service exposing the corresponding deployments.
+command: kubectl expose deploy app1 --port=8080 --target-port=80
+         kubectl expose deploy app2 --port=8081 --target-port=80
+
+d) Create an Ingress Resource for Path-Based Routing:
+Open the existing Ingress resource (path-ingress.yaml).
+Modify the Ingress resource to include multiple paths for path-based routing.
+Define paths such as /app1 and /app2, each pointing to the corresponding backend service.
+command:
+ingress.yaml
+---
+   apiVersion: networking.k8s.io/v1
+   kind: Ingress
+   metadata:
+    name: basic-ingress
+    namespace: default
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /
+   spec:
+     ingressClassName: nginx
+     rules:
+     - host: test.example.com
+       http:
+         paths:
+          - backend:
+             service:
+               name: app1
+               port:
+                 number: 8080
+            path: /app1
+            pathType: Prefix
+          - backend:
+             service:
+               name: app2
+               port:
+                 number: 8081
+            path: /app2
+            pathType: Prefix
+
+e) Apply the updated Ingress resource to your Kubernetes cluster.
+command: kubectl apply -f ingress.yaml
+
+f) If needed, update your local hosts file to include the Ingress controller's IP.
+command: echo 172.30.1.2 test.example.com > /etc/hosts
+
+g) Open a web browser and navigate to:
+http://test.example.com/app1: Verify that you can access the app1 service.
+http://test.example.com/app2: Verify that you can access the app2 service.
+command: 
+    a) curl -v http://test.example.com:30080/app1
+    b) curl -v http://test.example.com:30080/app2
