@@ -7,7 +7,7 @@ Instructions:
 Review Existing Deployments:
 
 Confirm that you have the following existing components from previous exercises:
-Deployments named app1-deployment and app2-deployment with the labels app: app1 and app: app2 respectively.
+Deployments named app1-deployment and app2-deployment with the labels app=app1 and app=app2 respectively.
 Services named app1-service and app2-service exposing the corresponding deployments.
 Create a New Ingress Resource for Host-Based Routing:
 
@@ -30,3 +30,62 @@ Bonus: Add TLS Termination (Optional):
 
 If you want an extra challenge, modify the Ingress resource to include TLS termination for secure communication.
 ---------------------------------------------------------------------------------------------------------------------------------------------
+Solution:
+
+a) Deployments named app1-deployment and app2-deployment with the labels app=app1 and app=app2 respectively.
+command: kubectl create deploy app1 --image=nginx --replicas=2
+         kubectl create deploy app2 --image=nginx --replicas=2
+
+b) Services named app1-service and app2-service exposing the coresponding deployments.
+command: kubectl expose deploy app1 --port=8080 --target-port=80
+         kubectl expose deploy app2 --port=8080 --target-port=80
+
+c) Create a new Ingress resource YAML file (e.g., host-ingress.yaml).
+Configure the Ingress resource to route traffic based on different hostnames to distinct backend services.
+Use hostnames such as app1.example.com and app2.example.com for differentiation.
+
+vi host-ingress.yaml
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: host-ingress
+  namespace: default
+  annotations:
+     nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: app1.example.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: app1
+            port:
+              number: 8080
+  - host: app2.example.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: app2
+            port:
+              number: 8080
+
+d) Apply the newly created Ingress resource to your Kubernetes cluster.
+command: kubectl apply -f host-ingress.yaml
+
+e) If needed, update your local hosts file to include the Ingress controller's IP and map the hostnames (app1.example.com and app2.example.com) to the respective backend services.
+command: echo -e "172.30.1.2 app1.example.com\n172.30.1.2 app2.example.com"
+
+f) Open a web browser and navigate to:
+http://app1.example.com: Verify that you can access the app1 service.
+http://app2.example.com: Verify that you can access the app2 service.
+command: 
+    a) curl -v http://app1.example.com:30080
+    b) curl -v http://app2.example.com:30080
