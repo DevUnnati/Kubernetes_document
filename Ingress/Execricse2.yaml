@@ -21,14 +21,57 @@ Map the path / to the sample-service with a pathType of Prefix.
 Apply the Ingress with TLS:
 
 Apply the updated Ingress resource with TLS configuration.
+
 Update Hosts File:
 
 If needed, update your local hosts file to include the Ingress controller's IP.
 Access the Secured URL:
+---------------------------------------------------------------------------------------------------------------------------------------------
 
-Open a web browser and navigate to https://secure.example.com. Since this is a self-signed certificate, you might encounter a security warning. Proceed to the site.
-Note:
+Solution:
 
-Remember to use http or https based on your local setup and whether you have configured TLS in your Ingress.
-If you encounter any issues, refer to the official Kubernetes documentation or ask for assistance.
-Performing this exercise will give you hands-on experience with enabling TLS termination on the Ingress using a self-signed certificate. Good luck!
+a) Use OpenSSL or any tool of your choice to generate a self-signed SSL certificate. Save the private key and certificate in separate files.
+command:
+Step1:  openssl genpkey -algorithm RSA -out private_key.pem
+Step2:  openssl req -new -key private_key.pem -out certificate.csr
+Step3:  openssl x509 -req -days 365 -in certificate.csr -signkey private_key.pem -out certificate.pem
+
+b) Create a Kubernetes Secret named tls-secret to store the generated SSL certificate and private key.
+command: 
+    kubectl create secret tls tls-secret --cert=certificate.pem --key=private_key.pem
+
+c) Update the existing Ingress resource (basic-ingress.yaml) to include TLS configuration. Use the secret tls-secret you created.
+Configure the Ingress to route traffic based on the hostname secure.example.com.
+Map the path / to the sample-service with a pathType of Prefix.
+---
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      name: tls-example-ingress
+      annotations:
+         nginx.ingress.kubernetes.io/rewrite-target: /
+    spec:
+     ingressClassName: nginx
+     tls:
+      - hosts:
+        - hello.com
+     secretName: tls-secret
+     rules:
+     - host: hello.com
+       http:
+         paths:
+         - path: /
+           pathType: Prefix
+           backend:
+             service:
+               name: nginx1
+               port:
+                 number: 80
+d) Apply the updated Ingress resource with TLS configuration.
+commad: kubectl apply -f ingress.yaml
+
+e) If needed, update your local hosts file to include the Ingress controller's IP.
+command: echo 172.30.1.2 hello.com > /etc/hosts
+
+f) Access the Secured URL:
+command: curl -lv https://hello.com/
