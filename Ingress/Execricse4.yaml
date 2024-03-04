@@ -1,0 +1,32 @@
+Implement URL rewriting in the Ingress resource.
+Change the path before it reaches the backend service.
+Validate the changes to ensure the URL rewriting is functioning as intended.
+Instructions:
+
+Review Existing Setup:
+
+Ensure you have the following existing components:
+Deployments named app1-deployment and app2-deployment with the labels app: app1 and app: app2.
+Services named app1-service and app2-service exposing the corresponding deployments.
+An Ingress resource configured for path-based or host-based routing.
+Create a New Ingress Resource for URL Rewriting:
+
+Create a new Ingress resource YAML file (e.g., url-rewrite-ingress.yaml).
+Configure the Ingress resource to perform URL rewriting before traffic reaches the backend services.
+Specify the rules for URL rewriting based on your exercise requirements.
+Apply the New Ingress Resource:
+
+Apply the newly created Ingress resource to your Kubernetes cluster.
+Validate URL Rewriting:
+
+Open a web browser and navigate to the URLs specified in your Ingress resource.
+Observe the changes in the path based on the URL rewriting rules.
+Verify that the traffic reaches the correct backend service after URL rewriting.
+Experiment with Different Paths:
+
+Test the Ingress resource with various paths to confirm that the URL rewriting rules are consistently applied.
+Validate that the changes in the path are in accordance with your specified URL rewriting rules.
+Bonus: Test with Query Parameters (Optional):
+
+If applicable to your scenario, test the Ingress resource with URLs containing query parameters.
+Confirm that the URL rewriting rules handle query parameters appropriately.
