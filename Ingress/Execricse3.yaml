@@ -1,0 +1,32 @@
+Objective:
+
+Modify the existing Ingress resource to implement path-based routing.
+Define multiple paths and ensure each path routes traffic to the correct backend service.
+Instructions:
+
+Review Existing Deployment:
+
+Confirm that you have the following existing components from a previous exercise:
+Deployment named app1-deployment with the label app: app1.
+Deployment named app2-deployment with the label app: app2.
+Services named app1-service and app2-service exposing the corresponding deployments.
+Create an Ingress Resource for Path-Based Routing:
+
+Open the existing Ingress resource (path-ingress.yaml).
+Modify the Ingress resource to include multiple paths for path-based routing.
+Define paths such as /app1 and /app2, each pointing to the corresponding backend service.
+Apply the Updated Ingress Resource:
+
+Apply the updated Ingress resource to your Kubernetes cluster.
+Update Hosts File:
+
+If needed, update your local hosts file to include the Ingress controller's IP.
+Test Path-Based Routing:
+
+Open a web browser and navigate to:
+http://test.example.com/app1: Verify that you can access the app1 service.
+http://test.example.com/app2: Verify that you can access the app2 service.
+Experiment with additional paths defined in your Ingress resource.
+Bonus: Add TLS Termination (Optional):
+
+If you want an extra challenge, modify the Ingress resource to include TLS termination for secure communication.
