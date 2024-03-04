@@ -1,0 +1,32 @@
+Objective:
+
+Create a new Ingress resource to implement host-based routing.
+Route traffic based on different hostnames to distinct backend services.
+Instructions:
+
+Review Existing Deployments:
+
+Confirm that you have the following existing components from previous exercises:
+Deployments named app1-deployment and app2-deployment with the labels app: app1 and app: app2 respectively.
+Services named app1-service and app2-service exposing the corresponding deployments.
+Create a New Ingress Resource for Host-Based Routing:
+
+Create a new Ingress resource YAML file (e.g., host-ingress.yaml).
+Configure the Ingress resource to route traffic based on different hostnames to distinct backend services.
+Use hostnames such as app1.example.com and app2.example.com for differentiation.
+Apply the New Ingress Resource:
+
+Apply the newly created Ingress resource to your Kubernetes cluster.
+Update Hosts File (if needed):
+
+If needed, update your local hosts file to include the Ingress controller's IP and map the hostnames (app1.example.com and app2.example.com) to the respective backend services.
+Test Host-Based Routing:
+
+Open a web browser and navigate to:
+http://app1.example.com: Verify that you can access the app1 service.
+http://app2.example.com: Verify that you can access the app2 service.
+Experiment with additional hostnames defined in your Ingress resource.
+Bonus: Add TLS Termination (Optional):
+
+If you want an extra challenge, modify the Ingress resource to include TLS termination for secure communication.
+---------------------------------------------------------------------------------------------------------------------------------------------
