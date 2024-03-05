@@ -1,0 +1,11 @@
+Exercise 10: Troubleshooting
+Objective:
+
+Intentionally introduce a common issue (e.g., misconfigured path, SSL certificate problem) and troubleshoot it.
+Use relevant commands and logs to identify and resolve the problem.
+Instructions:
+
+Intentionally introduce a common issue in one of your Ingress resources (e.g., incorrect path, SSL certificate problem).
+Use kubectl describe ingress and check the Ingress controller logs to identify the problem.
+Troubleshoot and resolve the issue.
+Verify that the Ingress resource functions correctly after resolving the problem.
