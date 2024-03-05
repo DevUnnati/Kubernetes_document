@@ -37,3 +37,57 @@ Reflect and Discuss:
 Discuss the observed behavior with participants.
 Consider different use cases where URL rewriting might be beneficial.
 Reflect on the importance of URL rewriting in managing and optimizing web traffic.
+------------------------------------------------------------------------------------------------------
+
+Solution:
+
+a) Deploy two sample backend services, backend1 and backend2.
+command: kubectl create deploy backend1 --image=nginx --replicas=2
+         kubectl create deploy backend2 --image=nginx --replicas=2
+         
+b) Expose both services through Services (backend1-service and backend2-service).
+command: kubectl expose deploy backend1 --target-port=80 --port=8080
+          kubectl expose deploy backend2 --target-port=80 --port=8080
+
+c) Ensure that both services are accessible over HTTP.
+command: kubectl exec -it <pod-name> -n <namespace-name> -- curl http://<service-name>:<port-number>
+
+d) Write a new Ingress resource YAML file (e.g., url-rewrite-ingress.yaml).
+Configure the Ingress resource to perform URL rewriting before traffic reaches the backend services.
+Utilize annotations or specific Ingress rules for URL rewriting.
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  name: rewrite
+  namespace: default
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: rewrite.nginx.com
+    http:
+      paths:
+      - path: /something/app1(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: backend1
+            port:
+              number: 8080
+
+e) Apply the newly created Ingress resource to your Kubernetes cluster.
+command: kubectl apply -f url-rewrite-ingress.yaml
+
+f) Open a web browser and navigate to the URLs specified in your Ingress resource.
+Observe the changes in the path based on the URL rewriting rules.
+Verify that the traffic reaches the correct backend service after URL rewriting.
+
+command: http://<host-name>:<node-port>/something
+
+It will redirect to --> http://<host-name>:30080
+
+Note: For Performing this exercise, I am using killercoda.
+                                                                                                                                     
