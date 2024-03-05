@@ -1,0 +1,9 @@
+Exercise 10: Ingress Security
+Objective:
+
+Implement Ingress security measures.
+Add IP whitelisting to restrict access to your application through the Ingress.
+Instructions:
+
+Write a new Ingress resource YAML file (security-ingress.yaml) to implement IP whitelisting.
+Configure the Ingress resource to allow access only from specific IP addresses.
