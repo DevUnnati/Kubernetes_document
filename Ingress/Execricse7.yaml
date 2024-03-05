@@ -1,0 +1,40 @@
+Exercise 7: Ingress Annotations
+Objective:
+
+Explore various annotations supported by your Ingress controller.
+Use annotations to customize the behavior of your Ingress resource, such as setting timeouts or modifying response headers.
+Instructions:
+
+Discover Supported Annotations:
+
+Identify the Ingress controller you are using (e.g., NGINX, Traefik).
+Explore the official documentation for the Ingress controller to identify the annotations it supports.
+Pay attention to annotations related to timeouts, response headers, or any customization options.
+Create a Sample Ingress Resource:
+
+Write a new Ingress resource YAML file (e.g., custom-annotations-ingress.yaml).
+Define a basic routing configuration with paths and backends.
+Apply Custom Annotations:
+
+Utilize the annotations discovered in step 1 to customize the behavior of your Ingress resource.
+Examples of annotations to consider:
+Set a timeout for backend connections.
+Modify response headers.
+Customize SSL/TLS settings.
+Apply the Ingress Resource:
+
+Apply the Ingress resource with the custom annotations to your Kubernetes cluster.
+Validate Customizations:
+
+Test the Ingress resource by accessing different paths.
+Observe the behavior based on the applied custom annotations.
+Verify that timeouts, response headers, or other customizations are applied as expected.
+Experiment with Different Annotations (Optional):
+
+If time permits, experiment with additional annotations supported by your Ingress controller.
+Explore annotations related to security, rate limiting, or any other interesting features.
+Reflect and Discuss:
+
+Discuss the impact of the applied annotations on the Ingress resource behavior.
+Consider scenarios where each annotation might be beneficial.
+Reflect on the importance of understanding and utilizing annotations for Ingress customization.
