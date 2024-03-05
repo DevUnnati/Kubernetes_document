@@ -1,0 +1,39 @@
+Exercise 6: URL Rewriting
+Objective:
+
+Implement URL rewriting in the Ingress resource.
+Change the path before it reaches the backend service.
+Validate the changes to ensure the URL rewriting is functioning as intended.
+Instructions:
+
+Setup Deployments and Services:
+
+Deploy two sample backend services, backend1 and backend2.
+Expose both services through Services (backend1-service and backend2-service).
+Ensure that both services are accessible over HTTP.
+Create an Ingress Resource for URL Rewriting:
+
+Write a new Ingress resource YAML file (e.g., url-rewrite-ingress.yaml).
+Configure the Ingress resource to perform URL rewriting before traffic reaches the backend services.
+Utilize annotations or specific Ingress rules for URL rewriting.
+Apply the Ingress Resource:
+
+Apply the newly created Ingress resource to your Kubernetes cluster.
+Validate URL Rewriting:
+
+Open a web browser and navigate to the URLs specified in your Ingress resource.
+Observe the changes in the path based on the URL rewriting rules.
+Verify that the traffic reaches the correct backend service after URL rewriting.
+Experiment with Different Paths:
+
+Test the Ingress resource with various paths to confirm that the URL rewriting rules are consistently applied.
+Validate that the changes in the path are in accordance with your specified URL rewriting rules.
+Bonus: Test with Query Parameters (Optional):
+
+If applicable to your scenario, test the Ingress resource with URLs containing query parameters.
+Confirm that the URL rewriting rules handle query parameters appropriately.
+Reflect and Discuss:
+
+Discuss the observed behavior with participants.
+Consider different use cases where URL rewriting might be beneficial.
+Reflect on the importance of URL rewriting in managing and optimizing web traffic.
