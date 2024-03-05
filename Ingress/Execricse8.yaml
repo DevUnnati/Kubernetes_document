@@ -1,0 +1,34 @@
+Exercise 8: Update Backend Service
+Objective:
+
+Dynamically update the backend service for an existing Ingress resource without modifying the Ingress definition.
+Verify that the Ingress controller dynamically updates its configuration.
+Instructions:
+
+Existing Ingress Resource:
+
+Identify an existing Ingress resource in your Kubernetes cluster that routes traffic to a specific backend service.
+Note the name of the Ingress resource and the current backend service it points to.
+Deploy a New Backend Service:
+
+Deploy a new sample backend service (e.g., new-backend-service).
+Ensure the new backend service is accessible over the expected port (e.g., port 80).
+Update the Backend Service Dynamically:
+
+Use the appropriate command or method to dynamically update the backend service for the existing Ingress resource to point to the newly deployed backend service (new-backend-service).
+Avoid modifying the Ingress definition itself.
+Verify Dynamic Update:
+
+Access the paths specified in the Ingress resource using a web browser or curl.
+Verify that the Ingress controller dynamically updates its configuration to route traffic to the new backend service (new-backend-service).
+Observe Behavior:
+
+Observe the behavior of the Ingress controller in response to the dynamic update.
+Confirm that the changes take effect without requiring modifications to the Ingress definition.
+Clean Up (Optional):
+
+If desired, clean up the environment by removing the dynamically deployed backend service and reverting the Ingress resource to its original configuration.
+Reflect and Discuss:
+
+Discuss the significance of dynamically updating backend services for Ingress resources.
+Reflect on scenarios where dynamic updates without modifying the Ingress definition can be advantageous.
