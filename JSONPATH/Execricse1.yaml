@@ -1,0 +1,7 @@
+Exercise 1: Retrieve Pod Names
+Retrieve the list of all Pods in the default namespace using kubectl get pods.
+Use JSONPath to extract and display only the names of all Pods.
+---------------------------------------------------------------------------------------------------------
+Solution: kubectl get pods -o=jsonpath='{range .items[*]}{.metadata.name}{"\n"}{end}'
+
+range funtcion used to iterate and list out all the pods
