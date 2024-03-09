@@ -1,0 +1,25 @@
+Exercise 3: Dynamic Provisioning with StorageClass
+Enable Dynamic Provisioning:
+
+Modify the existing StorageClass ssd to enable dynamic provisioning.
+Create a PVC for Dynamic Provisioning:
+
+Create a PVC named dynamic-pvc requesting 4Gi storage and using the modified StorageClass.
+Verify Dynamic Provisioning:
+
+Check if a new PV has been dynamically provisioned for the dynamic-pvc.
+---------------------------------------------------------------------------------------------------------
+Solution:
+Create a PVC named dynamic-pvc requesting 4Gi storage and using the modified StorageClass.
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dynamic-pvc
+spec:
+  storageClassName: local-path
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
