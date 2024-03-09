@@ -63,6 +63,7 @@ spec:
   resources:
     requests:
       storage: 3Gi
+  volumeName: example-pv-local
 command: kubectl apply -f pvc.yaml
 
 d) List all PVs and PVCs to ensure they are in the correct status.
