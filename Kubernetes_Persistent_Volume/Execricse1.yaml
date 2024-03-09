@@ -1,0 +1,69 @@
+Exercise 1: Basic PV and PVC
+Create a StorageClass:
+
+Create a StorageClass named fast with a provisioner of your choice and any relevant parameters.
+Create a Persistent Volume (PV):
+
+Create a PV named example-pv with a capacity of 5Gi, access mode of ReadWriteOnce, and using the StorageClass fast.
+Create a Persistent Volume Claim (PVC):
+
+Create a PVC named example-pvc requesting 3Gi storage and using the StorageClass fast.
+Verify PV and PVC:
+
+List all PVs and PVCs to ensure they are in the correct status.
+------------------------------------------------------------------------------------------------------
+Solution:
+
+a) Create a StorageClass named fast with a provisioner of your choice and any relevant parameters.
+---> sc.yaml 
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: fast
+provisioner: rancher.io/local-path
+parameters:
+  type: pd-standard
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Delete
+
+Command: kubectl apply -f sc.yaml
+
+b) Create a PV named example-pv with a capacity of 5Gi, access mode of ReadWriteOnce, and using the StorageClass fast.
+---> pv.yaml
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: example-pv-local
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  volumeMode: Filesystem
+  hostPath:
+    path: /tmp/local
+
+command: kubectl apply -f pv.yaml
+
+c) Create a PVC named example-pvc requesting 3Gi storage and using the StorageClass fast.
+---> pvc.yaml
+---
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: example-pvc-local
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 3Gi
+command: kubectl apply -f pvc.yaml
+
+d) List all PVs and PVCs to ensure they are in the correct status.
+kubectl get pv,pvc
