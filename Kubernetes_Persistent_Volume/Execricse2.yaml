@@ -1,0 +1,44 @@
+Create a PV using HostPath:
+
+Create a PV named hostpath-pv using HostPath as the storage backend.
+Create a PVC for HostPath PV:
+
+Create a PVC named hostpath-pvc requesting 2Gi storage and using the hostpath-pv.
+Verify HostPath PV and PVC:
+
+Check the status and details of the hostpath-pv and hostpath-pvc.
+--------------------------------------------------------------------------------------------------------
+Solution:
+a) Create a PV named hostpath-pv using HostPath as the storage backend.
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: hostpath-pv
+spec:
+  storageClassName: local-path
+  capacity:
+    storage: 3Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+command: kubectl apply -f pv.yaml
+
+b) Create a PVC named hostpath-pvc requesting 2Gi storage and using the hostpath-pv.
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hostpath-pvc
+spec:
+  storageClassName: local-path
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+command: kubectl apply -f pvc.yaml
+
+c) Check the status and details of the hostpath-pv and hostpath-pvc.
+kubectl get pv,pvc
