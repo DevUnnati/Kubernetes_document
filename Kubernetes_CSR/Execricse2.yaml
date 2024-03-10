@@ -1,0 +1,13 @@
+Exercise 2: Create a Certificate with Let's Encrypt
+Install Cert-Manager:
+
+Deploy Cert-Manager in your Kubernetes cluster.
+Create Issuer or ClusterIssuer:
+
+Set up an Issuer or ClusterIssuer for Let's Encrypt.
+Define a Certificate Resource:
+
+Create a Certificate resource referencing the Issuer/ClusterIssuer and specifying the domain.
+Verify Certificate Status:
+
+Check the status of the Certificate resource to ensure it has been issued successfully.
