@@ -1,0 +1,14 @@
+Exercise 1: Create a Self-Signed Certificate
+Create a Certificate Signing Request (CSR):
+
+Generate a private key and create a CSR for a self-signed certificate.
+Approve the CSR:
+
+Use the Kubernetes CertificateSigningRequest API to approve the CSR.
+Retrieve the Certificate:
+
+Once the CSR is approved, retrieve the signed certificate.
+Verify Certificate:
+
+Verify that the certificate is correctly signed and can be used.
+--------------------------------------------------------------------------------------------------
