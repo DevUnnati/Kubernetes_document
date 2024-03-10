@@ -17,15 +17,29 @@ Solution:
 a) Generate a private key and create a CSR for a self-signed certificate:
       
    Step1: Generate a Private Key
-       openssl genrsa -out unnati.key 2048
+        openssl genrsa -out unnati.key 2048
       
    Step2: Generate a CSR by using private key
-     openssl req -new -key unnati.key -out unnati.csr -subj "/CN=unnati"
+        openssl req -new -key unnati.key -out unnati.csr -subj "/CN=unnati"
    Step3: Decode the csr in base64
-     cat unnati.csr | base64 | tr -d "\n"
-      
+        cat unnati.csr | base64 | tr -d "\n"
+        <copy the output>
+   Step4: create a csr.yaml
+       apiVersion: certificates.k8s.io/v1
+       kind: CertificateSigningRequest
+       metadata:
+         name: myuser
+       spec:
+         request: <paste the output>
+         signerName: kubernetes.io/kube-apiserver-client
+         expirationSeconds: 86400  # one day
+         usages:
+         - client auth
 
 b) Use the Kubernetes CertificateSigningRequest API to approve the CSR:
       kubectl certificate approve unnati
+
+c) Once the CSR is approved, retrieve the signed certificate:
+      kubectl describe certificate unnati
 
       
