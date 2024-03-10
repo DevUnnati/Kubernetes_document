@@ -6,7 +6,9 @@ You can consider serviceaccount as normal user account , the main difference is 
 
 <h3><b>Commands:</b></h3>
 
-   kubectl get serviceaccount
-   kubectl describe serviceaccount <serviceaccount-name>
-   kubectl create token <serviceaccount-name>
+    kubectl get serviceaccount
+   
+    kubectl describe serviceaccount <serviceaccount-name>
+   
+    kubectl create token <serviceaccount-name>
    
