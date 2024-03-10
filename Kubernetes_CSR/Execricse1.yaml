@@ -11,4 +11,21 @@ Once the CSR is approved, retrieve the signed certificate.
 Verify Certificate:
 
 Verify that the certificate is correctly signed and can be used.
---------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------
+Solution:
+
+a) Generate a private key and create a CSR for a self-signed certificate:
+      
+   Step1: Generate a Private Key
+       openssl genrsa -out unnati.key 2048
+      
+   Step2: Generate a CSR by using private key
+     openssl req -new -key unnati.key -out unnati.csr -subj "/CN=unnati"
+   Step3: Decode the csr in base64
+     cat unnati.csr | base64 | tr -d "\n"
+      
+
+b) Use the Kubernetes CertificateSigningRequest API to approve the CSR:
+      kubectl certificate approve unnati
+
+      
