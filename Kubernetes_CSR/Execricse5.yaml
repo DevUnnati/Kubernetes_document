@@ -1,0 +1,10 @@
+Exercise 5: Use Certificates in Ingress
+Create an Ingress Resource:
+
+Define an Ingress resource for a sample application.
+Configure TLS in Ingress:
+
+Configure the Ingress to use the previously created certificates for TLS termination.
+Access the Application:
+
+Access the application using HTTPS and verify that the certificate is applied.
