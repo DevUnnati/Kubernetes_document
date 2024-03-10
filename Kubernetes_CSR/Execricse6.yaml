@@ -1,0 +1,10 @@
+Exercise 6: Certificate Rotation in a Pod
+Mount Certificates in a Pod:
+
+Mount certificates stored in a Kubernetes Secret into a Pod.
+Implement Certificate Rotation:
+
+Implement a mechanism within the application to handle certificate rotation without restarting the Pod.
+Verify Rotation:
+
+Verify that the application continues to use the latest certificates without service interruption.
