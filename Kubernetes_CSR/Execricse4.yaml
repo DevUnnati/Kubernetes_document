@@ -1,0 +1,10 @@
+Exercise 4: Certificate Renewal with Cert-Manager
+Wait for Certificate Expiry:
+
+Let a certificate issued by Cert-Manager approach its expiration date.
+Verify Automatic Renewal:
+
+Confirm that Cert-Manager automatically renews the certificate before it expires.
+Review Logs:
+
+Check Cert-Manager logs to see the renewal process in action.
