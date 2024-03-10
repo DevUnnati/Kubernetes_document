@@ -1,0 +1,13 @@
+Exercise 3: Rotate Certificates
+Generate New Certificates:
+
+Generate new certificates with updated keys for a specific service.
+Update Secret:
+
+Update the Kubernetes Secret used by the service with the new certificate and key.
+Restart the Service:
+
+Restart the service to apply the new certificate.
+Verify the Rotation:
+
+Confirm that the service is now using the new certificate without disruptions.
