@@ -1,0 +1,26 @@
+Exercise: Pod with Environment Variables
+Create a Pod:
+
+Create a simple Pod named nginx-pod with the Nginx image.
+Add an environment variable APP_VERSION with the value v1.0.
+Verify Environment Variable:
+
+Use kubectl exec to access the running pod and echo the value of the APP_VERSION environment variable.
+-----------------------------------------------------------------------------------------------------------------------------------------------
+a) Create a simple Pod named nginx-pod with the Nginx image. Add an environment variable APP_VERSION with the value v1.0:
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+ containers:
+  - name: nginx
+    image: nginx
+    env:
+      - name: APP_VERSION
+        value: v1.0
+
+b) Use kubectl exec to access the running pod and echo the value of the APP_VERSION environment variable.
+command:
+   kubectl exec -it nginx -- env | grep APP_VERSION
