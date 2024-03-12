@@ -1,0 +1,28 @@
+Exercise: Pod with Command-Line Arguments
+Create a Pod:
+
+Create a Pod named busybox-pod using the BusyBox image.
+Configure the pod to run the sleep command for 3600 seconds.
+Verify Pod State:
+
+Use kubectl get pod busybox-pod to check the status of the pod.
+Confirm that the pod is in the "Running" state.
+-----------------------------------------------------------------------------------------------------------------------------------------------
+Solution:
+Create a Pod named busybox-pod using the BusyBox image.Configure the pod to run the sleep command for 3600 seconds:
+pods.yaml >
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox
+spec:
+ containers:
+  - name: busybox
+    image: busybox
+    command: ["sleep","3600"]
+
+Use kubectl get pod busybox-pod to check the status of the pod.
+Confirm that the pod is in the "Running" state.
+command:
+    kubectl get pod
