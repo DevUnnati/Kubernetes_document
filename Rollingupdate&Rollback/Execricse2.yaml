@@ -1,0 +1,26 @@
+Rollbacks:
+Simulate a Failure:
+
+Introduce a deliberate failure in the new version of the application.
+Deploy the faulty version and observe the impact on the application.
+Perform Rollback:
+
+Roll back to the previous version of the application.
+Ensure that the rollback is done smoothly without additional issues.
+Rollback with Configurations:
+
+Roll back to a previous version of the application while also reverting a configuration change.
+Verify that the application is running with the desired configuration.
+------------------------------------------------------------------------------------------------------------------------------------------------
+Solution:
+Roll back to the previous version of the application.
+Ensure that the rollback is done smoothly without additional issues.
+command:
+   kubectl rollout undo deployment/nginx 
+
+
+Roll back to a previous version of the application while also reverting a configuration change.
+Verify that the application is running with the desired configuration.
+command: 
+     kubectl rollout undo deployment nginx --to-revision=3
+     after that apply new configuration file like configmap,secret.
