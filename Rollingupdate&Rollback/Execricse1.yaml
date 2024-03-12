@@ -1,0 +1,47 @@
+Rolling Updates:
+Deploy an Application:
+
+Deploy a simple application using a Deployment resource.
+Verify that the pods are running and the service is accessible.
+Perform Rolling Updates:
+
+Update the image of the application to a new version.
+Implement a rolling update strategy with minimal disruption.
+Monitor the progress of the rolling update.
+Update Configurations:
+
+Change a configuration parameter (e.g., environment variable) in the application.
+Trigger a rolling update to apply the configuration change.
+Verify that the new configuration is reflected in the running pods.
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+Solution:
+a) Deploy a simple application using a Deployment resource.
+command: 
+    kubectl create deploy nginx --image=nginx --replicas=2
+    kubectl expose deploy nginx 8080:80
+    kubectl expose deploy nginx --target-port=80 --port=8080
+
+b) Verify that the pods are running and the service is accessible.
+command:
+   kubectl get pods
+   kubectl exec -it <pod-name> -- curl http://nginx:8080
+
+c) Update the image of the application to a new version.
+command:
+   kubectl set image deployment/nginx *=nginx:1.14.2
+d) Implement a rolling update strategy with minimal disruption.
+command:
+    kubectl rollout status deployment nginx
+    kubectl rollout history deployment nginx
+e) Change a configuration parameter (e.g., environment variable) in the application.
+command:
+   kubectl set env deployment/nginx env=nginx
+f) Trigger a rolling update to apply the configuration change
+command:
+   kubectl rollout status deployment nginx
+   kubectl rollout history deployment nginx
+g) Verify that the new configuration is reflected in the running pods.
+command:
+   kubectl describe pods <pod-name>
+   Check configuration is updated or not.
